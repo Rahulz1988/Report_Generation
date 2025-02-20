@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>Score Sheet Filler</title>
+</head>
+<body>
+    
+
+    <!-- Banner with scrolling message -->
+    <div class="banner">
+        <div class="banner-content">
+                        Report Generator | Excel Data Mapper | Score Sheet Filler | Automated Data Processing | Quick and Efficient Report Generation
+        </div>
+    </div>
+    <div class="container">
+        <h1>Report Generator</h1>
+        <input type="file" id="scoreSheet" accept=".xlsx" />
+        <input type="file" id="consolidatedSheet" accept=".xlsx" />
+        
+        <div id="result"></div>
+    </div>
+    <script src="script.js"></script><!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Excel Data Mapper</title>
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <!-- <h1>Excel Data Mapper</h1> -->
+            
+            <div class="upload-section">
+                <div class="file-upload">
+                    <h2>Score Sheet (Target)</h2>
+                    <input type="file" id="scoreSheetInput" accept=".xlsx, .xls, .csv">
+                    <label for="scoreSheetInput" class="upload-label">Choose Score Sheet</label>
+                    <p id="scoreSheetName" class="file-name">No file chosen</p>
+                </div>
+                
+                <div class="file-upload">
+                    <h2>Consolidated Sheet (Source)</h2>
+                    <input type="file" id="consolidatedSheetInput" accept=".xlsx, .xls, .csv">
+                    <label for="consolidatedSheetInput" class="upload-label">Choose Consolidated Sheet</label>
+                    <p id="consolidatedSheetName" class="file-name">No file chosen</p>
+                </div>
+            </div>
+            
+            <button id="processBtn" class="process-btn" disabled>Process Files</button>
+            
+            <div id="progressContainer" class="progress-container hidden">
+                <div class="progress-bar">
+                    <div id="progressBar" class="progress"></div>
+                </div>
+                <p id="progressText">Processing...</p>
+            </div>
+            
+            <div id="resultsSection" class="results-section hidden">
+                <h2>Processing Results</h2>
+                <div class="stats">
+                    <div class="stat-box">
+                        <p class="stat-label">Total Records</p>
+                        <p id="totalRecords" class="stat-value">0</p>
+                    </div>
+                    <div class="stat-box">
+                        <p class="stat-label">Records Mapped</p>
+                        <p id="recordsMapped" class="stat-value">0</p>
+                    </div>
+                    <div class="stat-box">
+                        <p class="stat-label">Records Not Found</p>
+                        <p id="recordsNotFound" class="stat-value">0</p>
+                    </div>
+                </div>
+                <button id="downloadBtn" class="download-btn">Download Updated Score Sheet</button>
+            </div>
+            
+            <div id="errorSection" class="error-section hidden">
+                <h2>Error</h2>
+                <p id="errorMessage"></p>
+            </div>
+        </div>
+    
+        <script src="new.js"></script>
+    </body>
+    </html>
+</body>
+</html>
