@@ -119,6 +119,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
                 
+                // Force numeric values for any cells that appear to be numbers
+                for (let i = 0; i < jsonData.length; i++) {
+                    for (let j = 0; j < jsonData[i].length; j++) {
+                        let value = jsonData[i][j];
+                        if (typeof value === 'string' && !isNaN(value) && value.trim() !== '') {
+                            // Convert string numbers to actual numbers
+                            jsonData[i][j] = Number(value) * 1;
+                        } else if (typeof value === 'number') {
+                            // Also multiply existing numbers by 1 to ensure numeric type
+                            jsonData[i][j] = value * 1;
+                        }
+                    }
+                }
+                
                 if (type === 'score') {
                     scoreSheetData = jsonData;
                 } else {
@@ -175,7 +189,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const candidateId = scoreSheetData[i][idIndex];
             if (typeof candidateId === 'string' && !isNaN(candidateId) && candidateId.trim() !== '') {
                 // It's a numeric string, convert to actual number
-                scoreSheetData[i][idIndex] = Number(candidateId);
+                scoreSheetData[i][idIndex] = Number(candidateId) * 1;
+            } else if (typeof candidateId === 'number') {
+                // Ensure existing numbers are explicitly numeric
+                scoreSheetData[i][idIndex] = candidateId * 1;
             }
         }
         
@@ -188,7 +205,9 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = 1; i < consolidatedSheetData.length; i++) {
             const candidateId = consolidatedSheetData[i][consolidatedIdIndex];
             if (typeof candidateId === 'string' && !isNaN(candidateId) && candidateId.trim() !== '') {
-                consolidatedSheetData[i][consolidatedIdIndex] = Number(candidateId);
+                consolidatedSheetData[i][consolidatedIdIndex] = Number(candidateId) * 1;
+            } else if (typeof candidateId === 'number') {
+                consolidatedSheetData[i][consolidatedIdIndex] = candidateId * 1;
             }
         }
     }
@@ -284,10 +303,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Only update if the consolidated data has a value
                     if (matchedRow[consolidatedIdx] !== undefined && matchedRow[consolidatedIdx] !== "") {
-                        // Ensure numeric values stay as numbers
+                        // Force numeric conversion for any value that looks like a number
                         let value = matchedRow[consolidatedIdx];
                         if (typeof value === 'string' && !isNaN(value) && value.trim() !== '') {
-                            value = Number(value);
+                            // Multiply by 1 to force numeric type
+                            value = Number(value) * 1;
+                        } else if (typeof value === 'number') {
+                            // Also multiply existing numbers by 1 to ensure numeric type
+                            value = value * 1;
                         }
                         scoreRow[scoreIdx] = value;
                     }
@@ -595,6 +618,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showError("Error generating file: " + error.message);
         }
     }
+    
     // Show error message
     function showError(message) {
         errorMessage.textContent = message;
