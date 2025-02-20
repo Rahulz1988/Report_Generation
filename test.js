@@ -96,7 +96,8 @@ document.addEventListener('DOMContentLoaded', function() {
         reader.onload = function(e) {
             try {
                 const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
+                // Use the cellDates: true option to properly handle dates
+                const workbook = XLSX.read(data, { type: 'array', cellDates: true });
                 
                 if (workbook.SheetNames.length === 0) {
                     showError(`The ${type === 'score' ? 'Score Sheet' : 'Consolidated Sheet'} does not contain any worksheets.`);
@@ -105,11 +106,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
                 
-                // Use raw: true to preserve numeric data types
+                // Use cellText: false and raw: true to ensure numbers stay as numbers
                 const jsonData = XLSX.utils.sheet_to_json(firstSheet, { 
                     header: 1, 
                     defval: "",
-                    raw: true 
+                    raw: true,
+                    cellText: false 
                 });
                 
                 if (jsonData.length === 0) {
@@ -159,9 +161,42 @@ document.addEventListener('DOMContentLoaded', function() {
         downloadProcessedSheet();
     });
 
+    // Process and validate IDs to ensure they're numeric when appropriate
+    function processAndValidateIds() {
+        if (!scoreSheetData || !consolidatedSheetData) return;
+        
+        const scoreHeaders = scoreSheetData[0].map(h => String(h).trim());
+        const idIndex = findHeaderIndex(scoreHeaders, "Candidate Id");
+        
+        if (idIndex === -1) return;
+        
+        // Check if Candidate IDs look like numbers stored as text
+        for (let i = 1; i < scoreSheetData.length; i++) {
+            const candidateId = scoreSheetData[i][idIndex];
+            if (typeof candidateId === 'string' && !isNaN(candidateId) && candidateId.trim() !== '') {
+                // It's a numeric string, convert to actual number
+                scoreSheetData[i][idIndex] = Number(candidateId);
+            }
+        }
+        
+        // Do the same for consolidated sheet
+        const consolidatedHeaders = consolidatedSheetData[0].map(h => String(h).trim());
+        const consolidatedIdIndex = findHeaderIndex(consolidatedHeaders, "Candidate Id");
+        
+        if (consolidatedIdIndex === -1) return;
+        
+        for (let i = 1; i < consolidatedSheetData.length; i++) {
+            const candidateId = consolidatedSheetData[i][consolidatedIdIndex];
+            if (typeof candidateId === 'string' && !isNaN(candidateId) && candidateId.trim() !== '') {
+                consolidatedSheetData[i][consolidatedIdIndex] = Number(candidateId);
+            }
+        }
+    }
+
     // Process the files with improved header detection
     function processFiles() {
         hideError();
+        processAndValidateIds();
         progressContainer.classList.remove('hidden');
         resultsSection.classList.add('hidden');
         
@@ -249,7 +284,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Only update if the consolidated data has a value
                     if (matchedRow[consolidatedIdx] !== undefined && matchedRow[consolidatedIdx] !== "") {
-                        scoreRow[scoreIdx] = matchedRow[consolidatedIdx];
+                        // Ensure numeric values stay as numbers
+                        let value = matchedRow[consolidatedIdx];
+                        if (typeof value === 'string' && !isNaN(value) && value.trim() !== '') {
+                            value = Number(value);
+                        }
+                        scoreRow[scoreIdx] = value;
                     }
                 }
                 mappedCount++;
@@ -467,8 +507,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Download the processed sheet with proper numeric formatting
     function downloadProcessedSheet() {
         try {
-            // Create a worksheet
-            const ws = XLSX.utils.aoa_to_sheet(processedData);
+            // Pre-process data to ensure numeric values are truly numeric
+            const processedDataCopy = JSON.parse(JSON.stringify(processedData));
+            
+            // Convert potential string numbers to actual numbers
+            for (let i = 1; i < processedDataCopy.length; i++) {
+                const row = processedDataCopy[i];
+                for (let j = 0; j < row.length; j++) {
+                    const value = row[j];
+                    // Check if it's a string that looks like a number
+                    if (typeof value === 'string' && !isNaN(value) && value.trim() !== '') {
+                        const numValue = Number(value);
+                        if (!isNaN(numValue)) {
+                            processedDataCopy[i][j] = numValue; // Convert to number
+                        }
+                    }
+                }
+            }
+            
+            // Create a worksheet using the number-corrected data
+            const ws = XLSX.utils.aoa_to_sheet(processedDataCopy);
             
             // Set numeric format for applicable cells
             const range = XLSX.utils.decode_range(ws['!ref']);
@@ -483,8 +541,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         cell.t = 'n';
                         
                         // Format based on header content and value
-                        const headerText = r > 0 && processedData[0][c] ? 
-                            String(processedData[0][c]).toLowerCase() : '';
+                        const headerText = r > 0 && processedDataCopy[0][c] ? 
+                            String(processedDataCopy[0][c]).toLowerCase() : '';
                         
                         // Determine appropriate format
                         if (headerText.includes('percentage') || headerText.includes('%')) {
@@ -509,12 +567,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
-            // Create a workbook
+            // Create a workbook with specific options to preserve numeric formats
             const wb = XLSX.utils.book_new();
+            wb.Props = {
+                Title: "Updated Score Sheet",
+                Subject: "Score Data",
+                Author: "Score Sheet Processor",
+                CreatedDate: new Date()
+            };
+            
             XLSX.utils.book_append_sheet(wb, ws, "Mapped Data");
             
-            // Generate file and trigger download
-            XLSX.writeFile(wb, "Updated_Score_Sheet.xlsx");
+            // Use specific write options to ensure Excel recognizes numbers
+            const wopts = {
+                bookType: 'xlsx',
+                bookSST: false,
+                type: 'binary',
+                cellStyles: true,
+                cellDates: true,
+                numbers: true  // This ensures Excel treats numbers as numbers
+            };
+            
+            XLSX.writeFile(wb, "Updated_Score_Sheet.xlsx", wopts);
         } catch (error) {
             showError("Error generating file: " + error.message);
         }
