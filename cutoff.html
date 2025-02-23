@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Cutoff Filter</title>
+    
+    <!-- Link to External CSS -->
+    <link rel="stylesheet" href="cutoff_styles.css">
+    
+    <!-- SheetJS Library for Excel Processing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+     <!-- Banner with scrolling message -->
+     <div class="banner">
+        <div class="banner-content">
+                        Report Generator | Excel Data Mapper | Score Sheet Filler | Automated Data Processing | Quick and Efficient Report Generation
+        </div>
+    </div>
+
+    <h2>Upload Excel File</h2>
+    <input type="file" id="fileInput" accept=".xlsx,.xls">
+    
+    <br><br>
+
+    <!-- Flexbox Container -->
+    <div id="controlsContainer">
+        <!-- Cutoff Controls -->
+        <div id="controls">
+            <h3>Set Cutoff Values</h3>
+        </div>
+
+        <!-- Statistics Section -->
+        <div id="statistics">
+            <h3>Statistics</h3>
+            <p><strong>Rejected:</strong> <span id="rejectedCount">0</span></p>
+            <p><strong>Selected:</strong> <span id="selectedCount">0</span></p>
+            <p><strong>Absentees:</strong> <span id="absenteesCount">0</span></p>
+        </div>
+    </div>
+
+    <br>
+
+    <!-- Action Buttons -->
+    <!-- <div id="actionButtons">
+        <button id="applyCutoffBtn" disabled>Apply Cutoff</button>
+        <button id="downloadExcelBtn" disabled>Download Updated Excel</button>
+    </div> -->
+
+    <br><br>
+
+    <!-- Table to Display Excel Data -->
+    <table id="dataTable"></table>
+
+    <!-- JavaScript File -->
+    <script src="cutoff_script.js"></script>
+
+</body>
+</html>
+

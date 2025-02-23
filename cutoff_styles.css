@@ -1,0 +1,140 @@
+/* General Styles */
+body { 
+    font-family: Arial, sans-serif; 
+    background-color: #f5f5dc; /* Cream */
+    color: #2d572c; /* Dark Green */
+    margin: 20px;
+    text-align: center;
+}
+
+/* File Input */
+input[type="file"] {
+    border: 1px solid #2d572c;
+    padding: 8px;
+    background-color: #ffffff;
+    color: #2d572c;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Buttons */
+button {
+    background-color: #2d572c; /* Green */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #3e8e41; /* Lighter Green */
+}
+
+/* Disabled Button */
+button:disabled {
+    background-color: #b0b0b0;
+    cursor: not-allowed;
+}
+
+/* Controls & Statistics Container */
+#controlsContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Controls Section */
+#controls {
+    flex: 1;
+    background-color: #e0e0b0; /* Light Cream */
+    padding: 15px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+/* Statistics Section */
+#statistics {
+    flex: 1;
+    background-color: #d4edda; /* Light Green */
+    padding: 15px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+/* Labels */
+label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* Input Fields */
+input[type="number"] {
+    padding: 5px;
+    border: 1px solid #2d572c;
+    border-radius: 5px;
+    margin: 5px;
+    text-align: center;
+}
+
+/* Table */
+table { 
+    border-collapse: collapse; 
+    width: 100%; 
+    margin-top: 20px; 
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Table Headers */
+th { 
+    background-color: #2d572c; /* Green */
+    color: white;
+    padding: 10px;
+}
+
+/* Table Data */
+td { 
+    border: 1px solid #ddd; 
+    padding: 8px; 
+    text-align: center;
+}
+
+/* Zebra Striping */
+tr:nth-child(even) { 
+    background-color: #f2f2f2; 
+}
+
+/* Hover Effect */
+tr:hover {
+    background-color: #0c7c26; /* Light Green */
+    transition: 0.3s;
+}
+/* Banner with scrolling text */
+.banner {
+    background-color: var(--primary-green);
+    color: rgb(12, 119, 44);
+    padding: 15px 0;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.banner-content {
+    white-space: nowrap;
+    animation: scroll-left 20s linear infinite;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+@keyframes scroll-left {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
