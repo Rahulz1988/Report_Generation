@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "RO": "Result Orientation",
         "C": "Conscientiousness",
         "SO": "Service Orientation",
-        "Overall Score (Max. 315)": "Overall Score (Max 315)",
+        "Marks(315)": "Personality Test",
     "Sociability (6)": "Sociability (6)",
     "Team work (10)": "Team Work (10)",
     "Cognitive Agility (15)": "Cognitive Agility (15)",
@@ -54,9 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
     Average: "Behavioural Average",
   }
 
-  // Special mappings for duplicate headers
   const specialMappings = [
-    // First occurrence
+    // First occurrence headers
     { scoreHeader: "Test Status", occurrence: 1, consolidatedHeader: "Aptitude Test Status" },
     {
       scoreHeader: "Attended Date (DD MM YYYY)",
@@ -64,12 +63,12 @@ document.addEventListener("DOMContentLoaded", () => {
       consolidatedHeader: "Aptitude Attended Date (DD MM YYYY)",
     },
     {
-      scoreHeader: "Time Spent (Duration 60 Minutes)",
+      scoreHeader: "Time Taken (Duration 60 Minutes)", 
       occurrence: 1,
       consolidatedHeader: "Aptitude Time Spent (Duration 60 Minutes)",
     },
-
-    // Second occurrence
+  
+    // Second occurrence headers
     { scoreHeader: "Test Status", occurrence: 2, consolidatedHeader: "Behavioural Test Status" },
     {
       scoreHeader: "Attended Date (DD MM YYYY)",
@@ -77,11 +76,13 @@ document.addEventListener("DOMContentLoaded", () => {
       consolidatedHeader: "Behavioural Attended Date (DD MM YYYY)",
     },
     {
-      scoreHeader: "Time Spent (Duration 15 Minutes)",
-      occurrence: 1,
+      scoreHeader: "Time Spent (Duration 15 Minutes)",  
+      occurrence: 1,  
       consolidatedHeader: "Behavioural Time Spent (Duration 15 Minutes)",
     },
-  ]
+
+   
+  ];
 
   // File input handlers
   scoreSheetInput.addEventListener("change", function (e) {

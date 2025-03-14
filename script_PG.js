@@ -54,30 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     Average: "Behavioural Average",
   }
 
-  // const specialMappings = [
-  //   // First occurrence headers
-  //   { scoreHeader: "Test Status", occurrence: 1, consolidatedHeader: "Aptitude Test Status" },
-  //   {
-  //     scoreHeader: "Attended Date (DD MM YYYY)",
-  //     occurrence: 1,
-  //     consolidatedHeader: "Aptitude Attended Date (DD MM YYYY)",
-  //   },
-  //   {
-  //     scoreHeader: "Time Taken (Duration 60 Minutes)", occurrence: 1,consolidatedHeader: "Aptitude Time Spent (Duration 60 Minutes)",
-  //   },
-  
-  //   //Second occurrence headers - with exact header names that match your file
-  //   { scoreHeader: "Test Status", occurrence: 2, consolidatedHeader: "Behavioural Test Status" },
-  //   {
-  //     scoreHeader: "Attended Date (DD MM YYYY)",
-  //     occurrence: 2,
-  //     consolidatedHeader: "Behavioural Attended Date (DD MM YYYY)",
-  //   },
-  //   {
-  //     scoreHeader: "Time Spent (Duration 15 Minutes)",  occurrence: 1,  consolidatedHeader: "Behavioural Time Spent (Duration 15 Minutes)",
-  //   },
-  // ];
-
+   
   const specialMappings = [
     // First occurrence headers
     { scoreHeader: "Test Status", occurrence: 1, consolidatedHeader: "Aptitude Test Status" },
