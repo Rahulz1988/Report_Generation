@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
       consolidatedHeader: "Behavioural Attended Date (DD MM YYYY)",
     },
     {
-      scoreHeader: "Time Spent (Duration 15 Minutes)",  
+      scoreHeader: "Spent (Duration 15 Minutes)",  
       occurrence: 1,  
       consolidatedHeader: "Behavioural Time Spent (Duration 15 Minutes)",
     },
