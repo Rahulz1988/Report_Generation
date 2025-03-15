@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     C: "Conscientiousness",
     SO: "Service Orientation",
     //"Overall Score (Max. 315)": "Overall Score (Max 315)",
-    "Marks(315)":"Personality Test",
+    "Score (315)":"Personality Test",
     "Sociability (6)": "Sociability (6)",
     "Team work (10)": "Team Work (10)",
     "Cognitive Agility (15)": "Cognitive Agility (15)",
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
       consolidatedHeader: "Aptitude Attended Date (DD MM YYYY)",
     },
     {
-      scoreHeader: "Time Taken (Duration 60 Minutes)", 
+      scoreHeader: "Time Spent (Duration 60 Minutes)", 
       occurrence: 1,
       consolidatedHeader: "Aptitude Time Spent (Duration 60 Minutes)",
     },
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
       consolidatedHeader: "Behavioural Attended Date (DD MM YYYY)",
     },
     {
-      scoreHeader: "Time Spent (Duration 15 Minutes)",  
+      scoreHeader: "Spent (Duration 15 Minutes)",  
       occurrence: 1,  
       consolidatedHeader: "Behavioural Time Spent (Duration 15 Minutes)",
     },

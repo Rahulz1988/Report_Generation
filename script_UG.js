@@ -1,5 +1,4 @@
 
-
 document.addEventListener("DOMContentLoaded", () => {
   // Elements
   const scoreSheetInput = document.getElementById("scoreSheetInput")
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "RO": "Result Orientation",
         "C": "Conscientiousness",
         "SO": "Service Orientation",
-        "Marks(315)": "Personality Test",
+        "Score (315)": "Personality Test",
     "Sociability (6)": "Sociability (6)",
     "Team work (10)": "Team Work (10)",
     "Cognitive Agility (15)": "Cognitive Agility (15)",
@@ -62,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       consolidatedHeader: "Aptitude Attended Date (DD MM YYYY)",
     },
     {
-      scoreHeader: "Time Taken (Duration 60 Minutes)", 
+      scoreHeader: "Time Spent (Duration 60 Minutes)", 
       occurrence: 1,
       consolidatedHeader: "Aptitude Time Spent (Duration 60 Minutes)",
     },
