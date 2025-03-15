@@ -1,5 +1,4 @@
-// Import the required library
-import * as XLSX from "xlsx"
+
 
 document.addEventListener("DOMContentLoaded", () => {
   // Elements

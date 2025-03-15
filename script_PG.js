@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       consolidatedHeader: "Aptitude Time Spent (Duration 60 Minutes)",
     },
   
+    
     // Second occurrence headers
     { scoreHeader: "Test Status", occurrence: 2, consolidatedHeader: "Behavioural Test Status" },
     {
