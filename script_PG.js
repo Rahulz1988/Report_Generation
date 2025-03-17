@@ -538,6 +538,22 @@ document.addEventListener("DOMContentLoaded", () => {
         const row = processedDataCopy[i]
         for (let j = 0; j < row.length; j++) {
           const value = row[j]
+
+          // Check if it's a date (look for ISO-like string or Date object)
+        if (value instanceof Date || 
+          (typeof value === "string" && 
+           value.match(/^\d{4}-\d{2}-\d{2}T/))) {
+        
+        // Convert to date object if it's an ISO string
+        const dateObj = value instanceof Date ? value : new Date(value)
+        
+        // Format date as YYYY-MM-DD only
+        const year = dateObj.getFullYear()
+        const month = (dateObj.getMonth() + 1).toString().padStart(2, '0')
+        const day = dateObj.getDate().toString().padStart(2, '0')
+        
+        processedDataCopy[i][j] = `${year}-${month}-${day}`
+      }
           // Check if it's a string that looks like a number
           if (typeof value === "string" && !isNaN(value) && value.trim() !== "") {
             // Force conversion to number by multiplying by 1
