@@ -74,6 +74,58 @@ function generateControls() {
 }
 
 // Apply Cutoff Logic
+// function applyCutoff() {
+//     let uniqueDegrees = [...new Set(excelData.map(row => row["Final Degree"]))];
+
+//     // Read cutoff values
+//     uniqueDegrees.forEach(degree => {
+//         let inputElement = document.getElementById(`cutoff_${degree}`);
+//         if (inputElement) {
+//             cutoffMap[degree] = parseFloat(inputElement.value) || 0;
+//         }
+//     });
+
+//     // Counters for statistics
+//     let rejectedCount = 0;
+//     let selectedCount = 0;
+//     let absenteeCount = 0;
+
+//     // Update Status Based on Cutoff
+//     excelData = excelData.map(row => {
+//         let finalDegree = row["Final Degree"];
+//         let cutoffValue = cutoffMap[finalDegree] || 0;
+        
+//         // Check both score fields
+//         let score75 = parseFloat(row["Overall Score (Max. 75)"]) || 0;
+//         let score60 = parseFloat(row["Overall Score (Max. 60)"]) || 0;
+        
+//         // Use the appropriate score based on which one is available (non-zero)
+//         let effectiveScore = score75 > 0 ? score75 : score60;
+        
+//         // If both scores are available, use the appropriate one based on the degree or other logic
+//         // This can be customized based on your specific requirements
+        
+//         // Apply cutoff logic
+//         if (effectiveScore > 0 && cutoffValue > 0) {
+//             row["Status"] = effectiveScore < cutoffValue ? "R" : "P";
+//         } else {
+//             // If no valid scores or cutoff, set as "A" (Absent)
+//             row["Status"] = "A";
+//         }
+
+//         // Count statistics
+//         if (row["Status"] === "R") rejectedCount++;
+//         if (row["Status"] === "P") selectedCount++;
+//         if (row["Status"] === "A") absenteeCount++;
+
+//         return row;
+//     });
+
+//     displayTable(); // Refresh Table to Reflect Updates
+//     updateStatistics(rejectedCount, selectedCount, absenteeCount); // Update Stats Display
+// }
+// Apply Cutoff Logic
+// Apply Cutoff Logic
 function applyCutoff() {
     let uniqueDegrees = [...new Set(excelData.map(row => row["Final Degree"]))];
 
@@ -95,27 +147,39 @@ function applyCutoff() {
         let finalDegree = row["Final Degree"];
         let cutoffValue = cutoffMap[finalDegree] || 0;
         
-        // Check both score fields
-        let score75 = parseFloat(row["Overall Score (Max. 75)"]) || 0;
-        let score60 = parseFloat(row["Overall Score (Max. 60)"]) || 0;
+        // Check if both score fields are blank/empty or undefined
+        let score75Field = row["Overall Score (Max. 75)"];
+        let score60Field = row["Overall Score (Max. 60)"];
         
-        // Use the appropriate score based on which one is available (non-zero)
-        let effectiveScore = score75 > 0 ? score75 : score60;
+        let score75Blank = score75Field === undefined || score75Field === "";
+        let score60Blank = score60Field === undefined || score60Field === "";
         
-        // If both scores are available, use the appropriate one based on the degree or other logic
-        // This can be customized based on your specific requirements
-        
-        // Apply cutoff logic
-        if (effectiveScore > 0 && cutoffValue > 0) {
-            row["Status"] = effectiveScore < cutoffValue ? "R" : "P";
-        } else {
-            // If no valid scores or cutoff, set as "A" (Absent)
+        // If both score fields are blank, mark as Absent
+        if (score75Blank && score60Blank) {
             row["Status"] = "A";
+        } else {
+            // Convert to numbers for comparison
+            let score75 = parseFloat(score75Field) || 0;
+            let score60 = parseFloat(score60Field) || 0;
+            
+            // Use the appropriate score based on which one is available (non-zero)
+            let effectiveScore = score75 > 0 ? score75 : score60;
+            
+            // If score is 0 or negative, mark as Rejected
+            if (effectiveScore <= 0) {
+                row["Status"] = "R";
+            } else if (cutoffValue > 0) {
+                // Apply cutoff comparison for positive scores
+                row["Status"] = effectiveScore < cutoffValue ? "R" : "S";
+            } else {
+                // Default case if no cutoff is set but score exists
+                row["Status"] = "S";
+            }
         }
 
         // Count statistics
         if (row["Status"] === "R") rejectedCount++;
-        if (row["Status"] === "P") selectedCount++;
+        if (row["Status"] === "S") selectedCount++;
         if (row["Status"] === "A") absenteeCount++;
 
         return row;
@@ -124,7 +188,6 @@ function applyCutoff() {
     displayTable(); // Refresh Table to Reflect Updates
     updateStatistics(rejectedCount, selectedCount, absenteeCount); // Update Stats Display
 }
-
 // Update Statistics Display
 function updateStatistics(rejected, selected, absentees) {
     let statsDiv = document.getElementById('statistics');
